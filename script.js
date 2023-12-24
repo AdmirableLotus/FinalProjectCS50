@@ -1,18 +1,32 @@
-function addEntry() {
-    const entryText = document.getElementById('entry-text').value;
+const choices = document.querySelectorAll('.choice');
+const freeResponseInput = document.getElementById('freeResponse');
+const freeResponseButton = document.getElementById('submitFreeResponse');
 
-    if (entryText.trim() === '') {
-        alert('Please write a message before adding it to the diary.');
-        return;
+choices.forEach(choice => {
+    choice.addEventListener('click', () => {
+        choices.forEach(c => c.classList.remove('selected'));
+        choice.classList.add('selected');
+        const feedback = choice.parentElement.nextElementSibling;
+        if (choice.textContent === 'Paris') {
+            feedback.textContent = 'Correct!';
+            feedback.style.color = 'green';
+        } else {
+            feedback.textContent = 'Incorrect';
+            feedback.style.color = 'red';
+        }
+    });
+});
+
+freeResponseButton.addEventListener('click', () => {
+    const response = freeResponseInput.value.trim().toLowerCase();
+    const feedback = freeResponseButton.parentElement.nextElementSibling;
+    if (response === 'blue whale') {
+        feedback.textContent = 'Correct!';
+        feedback.style.color = 'green';
+        freeResponseInput.style.border = '1px solid green';
+    } else {
+        feedback.textContent = 'Incorrect';
+        feedback.style.color = 'red';
+        freeResponseInput.style.border = '1px solid red';
     }
-
-    const entriesContainer = document.getElementById('entries-container');
-    const entryDiv = document.createElement('div');
-    entryDiv.classList.add('entry');
-    entryDiv.textContent = entryText;
-
-    entriesContainer.appendChild(entryDiv);
-
-    // Clear the textarea after adding the entry
-    document.getElementById('entry-text').value = '';
-}
+});
